@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from .forms import RegisterForm
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 # Create your views here.
 
 def register(request):
@@ -14,3 +17,8 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request,'users/register.html',{'form':form})
+
+def custom_logout(request):
+    logout(request)
+    # Redirect to a specific page after logout (optional)
+    return HttpResponseRedirect(reverse('index'))
