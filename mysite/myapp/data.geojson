@@ -1,0 +1,126 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "SELANGOR"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [101.535, 3.349]  // Coordinates for Selangor
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "KUALA LUMPUR"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [101.6869, 3.139]  // Coordinates for Kuala Lumpur
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "PENANG"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [100.3091, 5.4175]  // Coordinates for Penang
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "JOHOR"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [103.7613, 1.4854]  // Coordinates for Johor
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "MELAKA"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [102.2501, 2.193]  // Coordinates for Melaka
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "SARAWAK"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [113.7633, 1.5304]  // Coordinates for Sarawak
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "PUTRAJAYA"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [101.6914, 2.9267]  // Coordinates for Putrajaya
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "SABAH"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [116.276, 5.975]  // Coordinates for Sabah
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "PERAK"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [101.032, 4.597]  // Coordinates for Perak
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "NEGERI SEMBILAN"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [101.947, 2.7297]  // Coordinates for Negeri Sembilan
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "KELANTAN"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [102.2444, 6.125]  // Coordinates for Kelantan
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "name": "KEDAH"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [100.5, 6.128]  // Coordinates for Kedah
+        }
+      }
+    ]
+  }
+  
