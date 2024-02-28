@@ -9,5 +9,6 @@ class Job(models.Model):
     location = models.CharField(max_length=200)
     category = models.CharField(max_length=200)
     jobtype = models.CharField(max_length=100)
-    salary = models.FloatField()
+    salary = models.CharField(max_length=100)
     jd= models.CharField(max_length=10000)
+    avgsalary = models.FloatField()
