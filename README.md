@@ -4,10 +4,11 @@ The Job Seeker app is a Django application designed to display available jobs an
 
 ## Features
 
-- View available jobs
-- Visualize market demand through various visualizations
-- Data scraped from jobstreet.com
-- User-friendly interface
+1. **Login/Logout/Register**: Users can register for an account, log in to access the application's features, and log out when done.
+2. **Admin Panel**: Administrators have access to the admin panel to manage users and job listings efficiently.
+3. **Load Data from CSV File**: The application supports loading job data from CSV files, providing flexibility in data management.
+4. **Job List Page**: Users can view a list of available jobs with details such as job title, company, location, and date posted.
+5. **Dashboard Page**: The dashboard page provides users with visualizations and insights into market demand, helping them understand trends and make informed decisions.
 
 ## Installation
 
@@ -35,36 +36,14 @@ The Job Seeker app is a Django application designed to display available jobs an
     python manage.py runserver
     ```
 
-## Usage
+## Data Scraping
 
-1. Access the application in your web browser.
-2. Explore available jobs and visualizations to gain insights into the job market.
+The `jobscrape.ipynb` file contains the Python notebook used to scrape job data from Jobstreet. This notebook utilizes various web scraping techniques to extract job listings and relevant information from the Jobstreet website and store it into 'job.csv' file
 
-## Contributing
+## Future Enhancements
 
-Contributions are welcome! If you'd like to contribute to the project, please follow these steps:
+1. **Enhanced Job Data**: Add additional data such as job level, years of experience, and desired skills to provide users with more useful information.
+2. **Salary Suggestion**: Utilize data on years of experience, desired skills, and location to suggest salary ranges for job listings, helping users negotiate salaries effectively.
+3. **Recommendations**: Provide recommendations for high-salary locations and top skills to learn based on market demand and trends, helping users make strategic career decisions.
 
-1. Fork the repository.
-2. Create your feature branch:
 
-    ```bash
-    git checkout -b feature-name
-    ```
-
-3. Commit your changes:
-
-    ```bash
-    git commit -am 'Add some feature'
-    ```
-
-4. Push to the branch:
-
-    ```bash
-    git push origin feature-name
-    ```
-
-5. Submit a pull request.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
