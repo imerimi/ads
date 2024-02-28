@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Job(models.Model):
 
     def __str__(self):
@@ -12,3 +13,4 @@ class Job(models.Model):
     salary = models.CharField(max_length=100)
     jd= models.CharField(max_length=10000)
     avgsalary = models.FloatField()
+    mainloc = models.CharField(max_length=100)

@@ -16,7 +16,7 @@
 <div class="flex">
     <div class="p-5 w-1/3">
         <div class="shadow-lg p-10">
-            <div class="text-4xl font-bold">318</div>
+            <div class="text-4xl font-bold">{{ total_jobs }}</div>
             <div>Total Job</div>
         </div>
     </div>
@@ -34,5 +34,91 @@
             <div>Number of application</div>
         </div>
     </div>
+</div>
 
+<div class="container">
+    <div class="row">
+        <!-- Job Summary -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Render the pie chart -->
+                    <div id="pie-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- Job Summary -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Render the pie chart -->
+                    <div id="choropleth-map"></div>
+                    {{mainloc_data}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<script>
+    // Retrieve data passed from the view
+    var mainlocData = {{ mainloc_data|safe }};
+    
+    // Convert JSON string to JavaScript object
+    var mainlocDataParsed = JSON.parse(mainlocData);
+
+    // Plot the choropleth map using Seaborn
+    sns.histplot(mainlocDataParsed, x='mainloc', kde=True);
+</script>
+<script>
+    // Retrieve data passed from the view
+    var categories = {{ categories|safe }};
+    
+    // Extract category names and counts
+    var category_names = [];
+    var category_counts = [];
+    categories.forEach(function(item) {
+        category_names.push(item.category);
+        category_counts.push(item.count);
+    });
+
+    // Create the data trace for the pie chart
+    var data = [{
+        values: category_counts,
+        labels: category_names,
+        type: 'pie'
+    }];
+
+    // Define layout options for the pie chart
+    var layout = {
+        title: 'Job Categories'
+    };
+
+    // Plot the pie chart
+    Plotly.newPlot('pie-chart', data, layout);
+
+    // Add event listener to category selection element (e.g., dropdown menu)
+    document.getElementById('category-select').addEventListener('change', function() {
+        var selectedCategory = this.value;
+
+        // Filter data based on selected category
+        var filteredData = categories.filter(function(item) {
+            return item.category === selectedCategory;
+        });
+
+        // Update pie chart data and redraw
+        var newData = [{
+            values: [filteredData[0].count],
+            labels: [filteredData[0].category],
+            type: 'pie'
+        }];
+
+        Plotly.newPlot('pie-chart', newData, layout);
+    });
+</script>
 {% endblock %}

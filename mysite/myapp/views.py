@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from .models import Job
 from django.core.paginator import Paginator
-
+from django.db.models import Count
+import geopandas as gpd
 # Create your views here.
 # def index(request):
 #     jobs= Job.objects.all()
@@ -16,5 +17,21 @@ def index(request):
 
 
 def dashboard(request):
+    # Retrieve all jobs from the Job model
     jobs = Job.objects.all()
-    return render(request,'myapp/dashboard.html',{'jobs':jobs})
+    
+    # Calculate the total number of jobs
+    total_jobs = jobs.count()
+    
+    # Retrieve category counts from the Job model
+    categories = Job.objects.values('category').annotate(count=Count('category'))
+
+    categories_list = list(categories)
+
+    categories_sorted = sorted(categories_list, key=lambda x: x['count'], reverse=True)
+
+
+
+
+    # Pass the total number of jobs and category counts to the template context
+    return render(request, 'myapp/dashboard.html', {'total_jobs': total_jobs, 'categories': categories_sorted})
