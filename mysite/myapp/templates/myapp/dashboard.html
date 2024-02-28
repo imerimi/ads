@@ -35,6 +35,19 @@
         </div>
     </div>
 </div>
+<div class="container">
+    <div class="row">
+        <!-- Job Summary -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Render the pie chart -->
+                    <div id="pie-chart1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="container">
     <div class="row">
@@ -58,6 +71,21 @@
                 <div class="card-body">
                     <!-- Render the pie chart -->
                     <div id="barChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!-- Job Summary -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Render the pie chart -->
+                    <img src="data:image/png;base64,{{ wordcloud_image }}" alt="Word Cloud">
+                    {{ wordcloud }}
                 </div>
             </div>
         </div>
@@ -283,6 +311,52 @@ Plotly.newPlot('barChart', [trace], layout);
         }];
 
         Plotly.newPlot('pie-chart', newData, layout);
+    });
+</script>
+<script>
+    // Retrieve data passed from the view
+    var categories = {{ jobtypes|safe }};
+    
+    // Extract category names and counts
+    var category_names = [];
+    var category_counts = [];
+    categories.forEach(function(item) {
+        category_names.push(item.jobtype);
+        category_counts.push(item.count);
+    });
+
+    // Create the data trace for the pie chart
+    var data = [{
+        values: category_counts,
+        labels: category_names,
+        type: 'pie'
+    }];
+
+    // Define layout options for the pie chart
+    var layout = {
+        title: 'Job Categories'
+    };
+
+    // Plot the pie chart
+    Plotly.newPlot('pie-chart1', data, layout);
+
+    // Add event listener to category selection element (e.g., dropdown menu)
+    document.getElementById('category-select').addEventListener('change', function() {
+        var selectedCategory = this.value;
+
+        // Filter data based on selected category
+        var filteredData = categories.filter(function(item) {
+            return item.category === selectedCategory;
+        });
+
+        // Update pie chart data and redraw
+        var newData = [{
+            values: [filteredData[0].count],
+            labels: [filteredData[0].category],
+            type: 'pie'
+        }];
+
+        Plotly.newPlot('pie-chart1', newData, layout);
     });
 </script>
 {% endblock %}
