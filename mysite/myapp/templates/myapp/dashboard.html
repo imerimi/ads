@@ -57,24 +57,137 @@
             <div class="card">
                 <div class="card-body">
                     <!-- Render the pie chart -->
-                    <div id="choropleth-map"></div>
-                    {{mainloc_data}}
+                    <div id="barChart"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-    
 <script>
-    // Retrieve data passed from the view
-    var mainlocData = {{ mainloc_data|safe }};
-    
-    // Convert JSON string to JavaScript object
-    var mainlocDataParsed = JSON.parse(mainlocData);
+// Data from mainloc_avgsalary_list
+var data =  {{ mainloc_avgsalary_list|safe }};
 
-    // Plot the choropleth map using Seaborn
-    sns.histplot(mainlocDataParsed, x='mainloc', kde=True);
+// Function to extract state from location
+function getState(location) {
+    var state = location.trim(); // Remove leading/trailing spaces
+    
+    // Check if location contains a comma
+    var commaIndex = location.indexOf(',');
+    if (commaIndex !== -1) {
+        state = location.substring(commaIndex + 1).trim(); // Extract state part
+    }
+    
+    return state;
+}
+
+// Group locations into states
+var stateSalaries = {};
+data.forEach(function(item) {
+    var state = getState(item.location);
+    if (!(state in stateSalaries)) {
+        stateSalaries[state] = [];
+    }
+    stateSalaries[state].push(item.avg_salary);
+});
+
+// Calculate average salary for each state
+var stateAvgSalaries = {};
+for (var state in stateSalaries) {
+    var salaries = stateSalaries[state];
+    var totalSalary = salaries.reduce(function(acc, curr) {
+        return acc + curr;
+    }, 0);
+    var avgSalary = totalSalary / salaries.length;
+    stateAvgSalaries[state] = avgSalary;
+}
+
+// Convert stateAvgSalaries object to array of objects
+var stateAvgSalariesArray = Object.keys(stateAvgSalaries).map(function(state) {
+    return { state: state, avg_salary: stateAvgSalaries[state] };
+});
+
+// Sort the array by average salary (high to low)
+stateAvgSalariesArray.sort(function(a, b) {
+    return b.avg_salary - a.avg_salary;
+});
+
+// Extract labels and values for the bar chart
+var states = stateAvgSalariesArray.map(function(item) {
+    return item.state;
+});
+var avgSalaries = stateAvgSalariesArray.map(function(item) {
+    return item.avg_salary;
+});
+
+// Define custom colors for bars
+var colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'];
+
+// Define trace for the bar chart with custom colors
+var trace = {
+    x: avgSalaries,
+    y: states,
+    type: 'bar',
+    orientation: 'h', // horizontal bar chart
+    marker: {
+        color: colors.slice(0, states.length), // Assign colors to bars
+        line: {
+            color: 'rgba(50, 171, 96, 1.0)', // Set custom color for bar outlines
+            width: 1 // Set custom width for bar outlines
+        }
+    }
+};
+
+// Define layout options
+var layout = {
+    title: 'Average Salary by State',
+    xaxis: {
+        title: 'Average Salary',
+        type: 'log', // Logarithmic scale for x-axis
+        tickformat: ',.2r' // Format tick labels
+    },
+    yaxis: {
+        title: 'State',
+        automargin: true // Automatically adjust margins
+    },
+    margin: { t: 50, r: 50, b: 100, l: 150 }, // Adjust margins
+    plot_bgcolor: '#f7f7f7', // Set plot background color
+    paper_bgcolor: '#ffffff' // Set paper background color
+};
+
+// Plot the chart
+Plotly.newPlot('barChart', [trace], layout);
+
 </script>
+
+<!-- <script>
+    // Retrieve the data passed from the view
+    var mainlocAvgsalary = JSON.parse('{{ mainloc_avgsalary_list|escapejs }}');
+
+    // Extract mainloc names and average salaries
+    var mainlocs = [];
+    var avgsalaries = [];
+    mainlocAvgsalary.forEach(function(item) {
+        mainlocs.push(item.mainloc);
+        avgsalaries.push(item.avg_salary);
+    });
+
+    // Create the data trace for the bar chart
+    var data = [{
+        x: mainlocs,
+        y: avgsalaries,
+        type: 'bar'
+    }];
+
+    // Define layout options for the bar chart
+    var layout = {
+        title: 'Average Salary by Main Location',
+        xaxis: { title: 'Main Location' },
+        yaxis: { title: 'Average Salary' }
+    };
+
+    // Plot the bar chart
+    Plotly.newPlot('barchart', data, layout);
+</script> -->
 <script>
     // Retrieve data passed from the view
     var categories = {{ categories|safe }};

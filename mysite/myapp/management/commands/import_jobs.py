@@ -1,5 +1,5 @@
 import csv
-from myapp.models import Job
+from myapp.models import Jobs
 from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):
@@ -13,7 +13,7 @@ class Command(BaseCommand):
         with open(csv_file, 'r', encoding='utf-8') as file:
             reader = csv.DictReader(file)
             for row in reader:
-                Job.objects.create(
+                Jobs.objects.create(
                     title=row['title'],
                     company=row['company'],
                     location=row['location'],
