@@ -1,6 +1,6 @@
 # Job Seeker App
 
-The Job Seeker app is a Django application designed to display available jobs and provide useful visualizations to help users understand market demand. The application scrapes job data from jobstreet.com as part of its data scraping functionality.
+The Job Seeker app is a Django application designed to display available jobs and provide useful visualizations to help users understand market demand. 
 
 ## Features
 
