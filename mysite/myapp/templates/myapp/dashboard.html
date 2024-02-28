@@ -63,6 +63,57 @@
         </div>
     </div>
 </div>
+
+
+<div class="container">
+    <div class="row">
+        <!-- Job Summary -->
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Render the pie chart -->
+                    <div id="bubbleChart" style="height: 600px "></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Extract data passed from Django view
+    var categoryData = {{ category_avg_salary|safe}};
+
+    // Extract categories and average salaries from data
+    var categories = categoryData.map(obj => obj.category);
+    var avgSalaries = categoryData.map(obj => obj.avg_salary);
+
+    // Define marker size based on average salary
+    var markerSizes = avgSalaries.map(salary => Math.sqrt(salary));
+
+    // Create trace for the bubble chart
+    var trace = {
+        x: categories,
+        y: avgSalaries,
+        mode: 'markers',
+        marker: {
+            size: markerSizes, // Size of bubble based on square root of average salary
+            color: avgSalaries, // Color based on average salary
+            colorscale: 'Viridis', // Choose a colorscale
+            showscale: true // Show color scale legend
+        },
+        type: 'scatter'
+    };
+
+    // Define layout options
+    var layout = {
+        title: 'Average Salary by Category',
+        xaxis: { title: 'Category' },
+        yaxis: { title: 'Average Salary' }
+    };
+
+    // Plot the bubble chart
+    Plotly.newPlot('bubbleChart', [trace], layout);
+</script>
 <script>
 // Data from mainloc_avgsalary_list
 var data =  {{ mainloc_avgsalary_list|safe }};

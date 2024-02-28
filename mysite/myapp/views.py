@@ -36,7 +36,16 @@ def dashboard(request):
         .exclude(location='')
     )
 
+    category_avg_salary = (
+        Job.objects.exclude(avgsalary=0)
+        .values('category')
+        .annotate(avg_salary=Avg('avgsalary'))
+    )
+
+
     mainloc_avgsalary_list = list(mainloc_avgsalary)
 
+    category_avg_salary_list= list(category_avg_salary)
+
     # Pass the total number of jobs, category counts, and mainloc_avgsalary_list to the template context
-    return render(request, 'myapp/dashboard.html', {'total_jobs': total_jobs, 'categories': categories_sorted, 'mainloc_avgsalary_list': mainloc_avgsalary_list})
+    return render(request, 'myapp/dashboard.html', {'total_jobs': total_jobs, 'categories': categories_sorted, 'mainloc_avgsalary_list': mainloc_avgsalary_list, 'category_avg_salary': category_avg_salary_list})
