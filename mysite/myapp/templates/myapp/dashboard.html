@@ -1,5 +1,36 @@
 {% extends 'myapp/base.html' %}
 {% block body %}
+<style>
+    .card-container {
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .card-container:hover {
+        transform: translateY(-5px);
+        background-color: #f0f0f0;
+    }
+
+    .custom-container {
+        margin-bottom: 20px;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #ffffff;
+    }
+
+    .custom-card-body {
+        padding: 20px;
+    }
+
+    .note {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666; /* Adjust color as needed */
+    }
+
+    
+</style>
+
 <div class="flex justify-between">
     <div class="ml-10 mt-10 font-bold text-xl">Dashboard</div>
     <div class="mr-20 mt-10">
@@ -15,60 +46,43 @@
 
 <div class="flex">
     <div class="p-5 w-1/3">
-        <div class="shadow-lg p-10">
+        <div class="shadow-lg p-10 flex items-center justify-center card-container">
             <div class="text-4xl font-bold">{{ total_jobs }}</div>
-            <div>Total Job</div>
+            <div class="ml-2">Total Jobs</div>
+            <img src="https://cdn2.iconfinder.com/data/icons/new-year-resolutions/64/resolutions-23-128.png" alt="Total Jobs Icon" class="w-8 h-8 ml-2">
         </div>
     </div>
 
      <div class="p-5 w-1/3">
-        <div class="shadow-lg p-10">
+        <div class="shadow-lg p-10 flex items-center justify-center card-container">
             <div class="text-4xl font-bold">15</div>
-            <div>New Job</div>
+            <div class="ml-2">New Jobs</div>
+            <img src="https://cdn3.iconfinder.com/data/icons/snowish/128x128/actions/document-new.png" alt="New Jobs Icon" class="w-8 h-8 ml-2">
         </div>
     </div>
 
      <div class="p-5 w-1/3">
-        <div class="shadow-lg p-10">
+        <div class="shadow-lg p-10 flex items-center justify-center card-container">
             <div class="text-4xl font-bold">123</div>
-            <div>Number of application</div>
+            <div class="ml-2">Number of Applications</div>
+            <img src="https://cdn4.iconfinder.com/data/icons/folders-114/64/folder-file-document-user-profile-resume-applicant-512.png" alt="Applications Icon" class="w-8 h-8 ml-2">
         </div>
     </div>
 </div>
-<div class="container">
+
+<div class="container custom-container">
     <div class="row">
-        <!-- Job Summary -->
-        <div class="col-md-12">
+        <div class="col-md-5">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body custom-card-body">
                     <!-- Render the pie chart -->
                     <div id="pie-chart1"></div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <!-- Job Summary -->
-        <div class="col-md-12">
+        <div class="col-md-7">
             <div class="card">
-                <div class="card-body">
-                    <!-- Render the pie chart -->
-                    <div id="pie-chart"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <!-- Job Summary -->
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
+                <div class="card-body custom-card-body">
                     <!-- Render the pie chart -->
                     <div id="barChart"></div>
                 </div>
@@ -77,30 +91,47 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container custom-container">
     <div class="row">
-        <!-- Job Summary -->
         <div class="col-md-12">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body custom-card-body">
                     <!-- Render the pie chart -->
-                    <img src="data:image/png;base64,{{ wordcloud_image }}" alt="Word Cloud">
-                    {{ wordcloud }}
+                    <div id="pie-chart"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
-<div class="container">
+<div class="container custom-container">
     <div class="row">
-        <!-- Job Summary -->
         <div class="col-md-12">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body custom-card-body">
                     <!-- Render the pie chart -->
-                    <div id="bubbleChart" style="height: 600px "></div>
+                    <div id="bubbleChart" style="height: 600px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container custom-container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body custom-card-body">
+                    <!-- Render the word cloud -->
+                    <img src="data:image/png;base64,{{ wordcloud_image }}" alt="Word Cloud">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 d-flex align-items-center"> <!-- Align items vertically -->
+            <div class="card">
+                <div class="card-body custom-card-body">
+                    <!-- Note -->
+                    <div class="note text-center">Note: This word cloud represents the most common words found in job descriptions.</div>
                 </div>
             </div>
         </div>
@@ -218,7 +249,14 @@ var trace = {
 
 // Define layout options
 var layout = {
-    title: 'Average Salary by State',
+    title: {
+            text: 'Average Salary by State',
+            font: {
+                size: 20,
+                family: 'Arial',
+                color: '#333' // Dark gray color
+            }
+        },
     xaxis: {
         title: 'Average Salary',
         type: 'log', // Logarithmic scale for x-axis
@@ -238,35 +276,7 @@ Plotly.newPlot('barChart', [trace], layout);
 
 </script>
 
-<!-- <script>
-    // Retrieve the data passed from the view
-    var mainlocAvgsalary = JSON.parse('{{ mainloc_avgsalary_list|escapejs }}');
 
-    // Extract mainloc names and average salaries
-    var mainlocs = [];
-    var avgsalaries = [];
-    mainlocAvgsalary.forEach(function(item) {
-        mainlocs.push(item.mainloc);
-        avgsalaries.push(item.avg_salary);
-    });
-
-    // Create the data trace for the bar chart
-    var data = [{
-        x: mainlocs,
-        y: avgsalaries,
-        type: 'bar'
-    }];
-
-    // Define layout options for the bar chart
-    var layout = {
-        title: 'Average Salary by Main Location',
-        xaxis: { title: 'Main Location' },
-        yaxis: { title: 'Average Salary' }
-    };
-
-    // Plot the bar chart
-    Plotly.newPlot('barchart', data, layout);
-</script> -->
 <script>
     // Retrieve data passed from the view
     var categories = {{ categories|safe }};
@@ -288,7 +298,14 @@ Plotly.newPlot('barChart', [trace], layout);
 
     // Define layout options for the pie chart
     var layout = {
-        title: 'Job Categories'
+        title: {
+            text: 'Available Job Category',
+            font: {
+                size: 20,
+                family: 'Arial',
+                color: '#333' // Dark gray color
+            }
+        },
     };
 
     // Plot the pie chart
@@ -334,7 +351,29 @@ Plotly.newPlot('barChart', [trace], layout);
 
     // Define layout options for the pie chart
     var layout = {
-        title: 'Job Categories'
+        title: {
+            text: 'Available Job Type',
+            font: {
+                size: 20,
+                family: 'Arial',
+                color: '#333' // Dark gray color
+            }
+        },
+        legend: {
+            orientation: 'h', // Horizontal legend
+            x: 0.5, // Centered horizontally
+            y: 1.1, // Slightly below the chart
+            bgcolor: 'rgba(255, 255, 255, 0)', // Transparent background
+            bordercolor: 'rgba(255, 255, 255, 0)' // Transparent border
+        },
+        margin: {
+            l: 20, // Left margin
+            r: 20, // Right margin
+            t: 80, // Top margin
+            b: 20 // Bottom margin
+        },
+        paper_bgcolor: '#f9f9f9', // Light gray background
+        plot_bgcolor: '#ffffff' // White plot background
     };
 
     // Plot the pie chart
@@ -359,4 +398,5 @@ Plotly.newPlot('barChart', [trace], layout);
         Plotly.newPlot('pie-chart1', newData, layout);
     });
 </script>
+
 {% endblock %}
